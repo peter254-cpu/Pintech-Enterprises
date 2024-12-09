@@ -9,6 +9,7 @@ import paymentRoutes from "./routes/payments.routes.js"
 import { connectDB } from "./lib/db.js"
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
+import cors from "cors"
 
 
 dotenv.config()
@@ -18,6 +19,7 @@ const app = express()
 app.use(express.json({limit: '50mb'}))
 app.use(cookieParser());
 app.use(morgan('combined'));
+app.use(cors());
 
 //DECLARATIONS 
 const PORT= process.env.PORT || 5001
