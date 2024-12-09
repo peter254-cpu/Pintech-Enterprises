@@ -16,13 +16,22 @@ dotenv.config()
 const app = express()
 
 
-app.use(express.json({limit: '50mb'}))
+app.use(express.json({ limit: '50mb' }))
 app.use(cookieParser());
 app.use(morgan('combined'));
-app.use(cors());
+const corsOptions = {
+    origin: 'http://localhost:5173',
+    // Replace with your client's URL
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+    // Added PATCH method 
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true, // Allow credentials 
+    optionsSuccessStatus: 200, // For legacy browser support 
+};
+app.use(cors(corsOptions));
 
 //DECLARATIONS 
-const PORT= process.env.PORT || 5001
+const PORT = process.env.PORT || 5001
 
 //local configurations
 app.use("/api/auth", authRoutes)
