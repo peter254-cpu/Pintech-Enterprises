@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-	baseURL: "https://pintech-enterprises-tic6.onrender.com/",
+	baseURL: "https://pintech-enterprises-tic6.onrender.com/api",
 	withCredentials: true, // send cookies to the server
 });
 

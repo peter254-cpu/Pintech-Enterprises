@@ -20,7 +20,10 @@ app.use(express.json({ limit: '50mb' }))
 app.use(cookieParser());
 app.use(morgan('combined'));
 const corsOptions = {
-    origin: 'http://localhost:5173',
+    origin: [ 
+        'http://localhost:5173', 
+        'https://pintech-enterprises-ew1zn78eu-peters-projects-aec1db52.vercel.app/login'
+     ],
     // Replace with your client's URL
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
     // Added PATCH method 
