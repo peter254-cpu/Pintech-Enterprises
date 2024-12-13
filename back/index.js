@@ -22,7 +22,7 @@ app.use(morgan('combined'));
 const corsOptions = {
     origin: [ 
         'http://localhost:5173', 
-        'https://pintech-enterprises-ew1zn78eu-peters-projects-aec1db52.vercel.app'
+        'http://pintech-enterprises.vercel.app/'
      ],
     // Replace with your client's URL
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
