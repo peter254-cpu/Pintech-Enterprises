@@ -9,7 +9,9 @@ function getDatesInRange(startDate, endDate) {
     dates.push(currentDate.toISOString().split("T")[0]);
     currentDate.setDate(currentDate.getDate() + 1);
   }
+  return dates;
 }
+
 
 export const getAnalyticsData = async () => {
   try {
@@ -35,7 +37,8 @@ export const getAnalyticsData = async () => {
       totalRevenue,
     };
   } catch (error) {
-    throw error
+    console.log("Error getting analytics data", error);
+    throw error;
   }
 };
 
@@ -45,8 +48,8 @@ export const getDailySalesData = async (startDate, endDate) => {
       {
         $match: {
           createdAt: {
-            $gte: startDate,
-            $lte: endDate,
+            $gte: new Date(startDate), // Ensure dates are converted to Date objects
+            $lte: new Date(endDate),
           },
         },
       },
@@ -59,6 +62,7 @@ export const getDailySalesData = async (startDate, endDate) => {
       },
       { $sort: { _id: 1 } },
     ]);
+
     const dateArray = getDatesInRange(startDate, endDate);
     return dateArray.map((date) => {
       const foundData = dailySalesData.find((item) => item._id === date);
@@ -69,6 +73,7 @@ export const getDailySalesData = async (startDate, endDate) => {
       };
     });
   } catch (error) {
-    throw error
+    console.log("Error getting daily sales data", error);
+    throw error;
   }
 };

@@ -2,7 +2,7 @@ import Coupon from "../models/coupons.model.js";
 
 export const getCoupon = async (req, res) => {
   try {
-    const coupon = Coupon.findOne({ userId: req.user._id, isActive: true });
+    const coupon = await Coupon.findOne({ userId: req.user._id, isActive: true });
     res.json(coupon || null);
   } catch (error) {
     console.log("Error in getCoupon", error);

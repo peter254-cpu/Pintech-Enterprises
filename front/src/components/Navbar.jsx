@@ -33,12 +33,12 @@ const Navbar = () => {
                 size={20}
               />
               {cart.length > 0 &&
-                <>
+                <div className="flex flex-col justify-around gap-0 ">
                   <span className="hidden sm:inline">cart</span>
                   <span className="absolute -top-2 -right-2 bg-emerald-500 rounded-full px-2 py-0.5 text-xs group-hover:bg-emerald-400 transition duration-300 ease-in-out">
                     {cart.length}
                   </span>
-                </>
+                </div>
               }
             </Link>
           )}
