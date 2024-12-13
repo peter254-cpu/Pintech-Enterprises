@@ -12,39 +12,71 @@ import morgan from 'morgan';
 import cors from "cors"
 
 
-dotenv.config()
-const app = express()
+// Load environment variables
+dotenv.config();
 
+const app = express();
 
-app.use(express.json({ limit: '50mb' }))
+// Middleware setup
+app.use(express.json({ limit: '50mb' }));
 app.use(cookieParser());
 app.use(morgan('combined'));
+
+// CORS options
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://pintech-enterprises.vercel.app'
+];
+
 const corsOptions = {
-    origin: [ 
-        'http://localhost:5173', 
-        'http://pintech-enterprises.vercel.app/'
-     ],
-    // Replace with your client's URL
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-    // Added PATCH method 
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true, // Allow credentials 
-    optionsSuccessStatus: 200, // For legacy browser support 
+  origin: (origin, callback) => {
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: [
+    'GET',
+    'POST',
+    'PUT',
+    'DELETE',
+    'PATCH'
+  ],
+  allowedHeaders: [
+    'Content-Type',
+    'Authorization'
+  ],
+  credentials: true,
+  optionsSuccessStatus: 200 // For legacy browser support
 };
+
+// Enable CORS with specified options
 app.use(cors(corsOptions));
 
-//DECLARATIONS 
-const PORT = process.env.PORT || 5001
+// Explicitly set headers for every response
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  next();
+});
 
-//local configurations
-app.use("/api/auth", authRoutes)
-app.use("/api/products", productsRoutes)
-app.use("/api/cart", cartRoutes)
-app.use("/api/coupons", couponsRoutes)
-app.use("/api/payments", paymentRoutes)
-app.use("/api/analytics", analyticsRoutes)
+// Route declarations
+app.use("/api/auth", authRoutes);
+app.use("/api/products", productsRoutes);
+app.use("/api/cart", cartRoutes);
+app.use("/api/coupons", couponsRoutes);
+app.use("/api/payments", paymentRoutes);
+app.use("/api/analytics", analyticsRoutes);
 
+// Server setup
+const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
-    connectDB()
-    console.log(`http://localhost:${PORT}`)
-})
+  connectDB();
+  console.log(`http://localhost:${PORT}`);
+});
