@@ -9,6 +9,7 @@ export const useCartStore = create((set, get) => ({
   subtotal: 0,
   couponIsApplied: false,
 
+
   getMyCoupon: async () => {
     try {
       const response = await axios.get("/coupons")
@@ -17,24 +18,21 @@ export const useCartStore = create((set, get) => ({
       console.log("Error fetching coupon", error)
     }
   },
-
   applyCoupon: async (code) => {
     try {
-      const response = await axios.post("/coupons/validate", {code});
-      set({coupon: response.data, couponIsApplied: true})
+      const response = await axios.post("/coupons/validate", { code });
+      set({ coupon: response.data, couponIsApplied: true })
       get().calculateTotals();
       toast.success("Coupon applied successfully")
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to apply coupon ")
     }
   },
-  
   removeCoupon: () => {
-    set({ coupon: null, couponIsApplied: false})
+    set({ coupon: null, couponIsApplied: false })
     get().calculateTotals()
     toast.success("Coupon removed")
   },
-
   // Function to get cart items from the server
   getCartItems: async () => {
     try {
@@ -52,7 +50,6 @@ export const useCartStore = create((set, get) => ({
       toast.error(error.response.data.message || "Error while getting cart items");
     }
   },
-
   // Function to add a product to the cart
   addToCart: async (product) => {
     try {
@@ -67,8 +64,8 @@ export const useCartStore = create((set, get) => ({
         // If the product exists, increase its quantity; otherwise, add it to the cart
         const newCart = existingItem
           ? prevState.cart.map((item) =>
-              item._id === product._id ? { ...item, quantity: item.quantity + 1 } : item
-            )
+            item._id === product._id ? { ...item, quantity: item.quantity + 1 } : item
+          )
           : [...prevState.cart, { ...product, quantity: 1 }];
 
         // Calculate the totals after updating the cart
@@ -82,7 +79,6 @@ export const useCartStore = create((set, get) => ({
       console.log(error);
     }
   },
-
   // Function to calculate totals
   calculateTotals: () => {
     // Get the current state, including the cart and any applied coupon
@@ -99,7 +95,6 @@ export const useCartStore = create((set, get) => ({
     // Update the state with the new subtotal and total
     set({ subtotal, total });
   },
-
   // Function to remove an item from the cart
   removeFromCart: async (productId) => {
     try {
@@ -116,7 +111,6 @@ export const useCartStore = create((set, get) => ({
       toast.error("Error occurred while removing from cart");
     }
   },
-
   // Function to update the quantity of an item in the cart
   updateQuantity: async (productId, quantity) => {
     try {
@@ -138,7 +132,6 @@ export const useCartStore = create((set, get) => ({
       toast.error("Error occurred while updating quantity");
     }
   },
-
   // Function to clear the cart
   clearCart: async () => {
     try {
