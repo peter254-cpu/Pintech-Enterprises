@@ -6,7 +6,6 @@ import Navbar from "./components/Navbar";
 import { Toaster } from "react-hot-toast";
 import { useUserStore } from "./store/useUserStore";
 import { useEffect } from "react";
-import LoadingSpinner from "./components/LoadingSpinner";
 import AdminPage from "./pages/AdminPage";
 import CategoryPage from "./pages/CategoryPage";
 import CartPage from "./pages/CartPage";
@@ -22,14 +21,13 @@ export default function App() {
     checkAuth() 
   }, [checkAuth])
 
-
   useEffect(() => {
     if(!user) return 
     getCartItems() 
   }, [getCartItems, user])
 
   
-if(checkingAuth) return <LoadingSpinner />
+
   
   return (
     <div className="min-h-screen bg-gray-900 text-white relative overflow-hidden">
