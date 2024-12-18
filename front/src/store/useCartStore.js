@@ -15,7 +15,7 @@ export const useCartStore = create((set, get) => ({
       const response = await axios.get("/coupons")
       set({ coupon: response.data })
     } catch (error) {
-      console.log("Error fetching coupon", error)
+      toast.error(error.response?.data?.message  || "Can't get Coupon please try again later")
     }
   },
   applyCoupon: async (code) => {
@@ -46,8 +46,7 @@ export const useCartStore = create((set, get) => ({
     } catch (error) {
       // Handle errors by setting the cart to an empty array and showing an error message
       set({ cart: [] });
-      console.log(error);
-      toast.error(error.response.data.message || "Error while getting cart items");
+      toast.error(error.response?.data?.message || "Error while getting cart items");
     }
   },
   // Function to add a product to the cart
@@ -76,7 +75,7 @@ export const useCartStore = create((set, get) => ({
     } catch (error) {
       // Handle errors by showing an error message and not altering the cart state
       toast.error(error.response?.data?.message || "Error occurred while adding to cart");
-      console.log(error);
+     
     }
   },
   // Function to calculate totals
@@ -107,8 +106,7 @@ export const useCartStore = create((set, get) => ({
       // Recalculate the totals after removing the item
       get().calculateTotals();
     } catch (error) {
-      console.log(error);
-      toast.error("Error occurred while removing from cart");
+      toast.error(error.response?.data?.message || "Error while removing item from cart");
     }
   },
   // Function to update the quantity of an item in the cart
@@ -128,8 +126,7 @@ export const useCartStore = create((set, get) => ({
       // Recalculate totals after updating the quantity
       get().calculateTotals();
     } catch (error) {
-      console.log(error);
-      toast.error("Error occurred while updating quantity");
+      toast.error(error.response?.data?.message || "Error while updating items in your cart");
     }
   },
   // Function to clear the cart
@@ -139,7 +136,7 @@ export const useCartStore = create((set, get) => ({
       set({ cart: [], coupon: null, total: 0, subtotal: 0 });
       console.log("clear cart function run");
     } catch (error) {
-      console.log("Error clearing the cart", error);
+      toast.error(error.response?.data?.message || "Error can't clear cart items");
     }
   }
 }));
