@@ -19,7 +19,7 @@ export default function App() {
 
   useEffect(() => {
     checkAuth() 
-  }, [checkAuth])
+  }, [checkAuth, checkingAuth])
 
   useEffect(() => {
     if(!user) return 

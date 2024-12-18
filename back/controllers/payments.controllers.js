@@ -1,6 +1,8 @@
 import { stripe } from "../lib/stripe.js";
 import Coupon from "../models/coupons.model.js";
 import Order from "../models/order.model.js"
+import User from "../models/user.model.js"
+
 
 async function createStripeCoupon(discountPercentage) {
   // Create a coupon with the specified discount percentage
@@ -110,6 +112,7 @@ export const createCheckoutSession = async (req, res) => {
   }
 };
 
+
 export const checkoutSuccess = async (req, res) => {
   try {
     const { sessionId } = req.body;
@@ -155,6 +158,11 @@ export const checkoutSuccess = async (req, res) => {
 
         // Save the new order to the database
         await newOrder.save();
+
+        // Clear the user's cart
+        const user = await User.findById(session.metadata.userId);
+        user.cartItems = [];
+        await user.save();
 
         // Respond with a success message and the new order ID
         res.status(200).json({
