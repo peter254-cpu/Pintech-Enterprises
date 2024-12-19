@@ -11,7 +11,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://pintech-enterprises-5vvi.onrender.com',
+        target: 'https://pintech-enterprises-98i5.onrender.com'
         changeOrigin: true,
         secure: false,
       },
