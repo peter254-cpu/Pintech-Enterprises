@@ -27,5 +27,9 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.4"
-  }
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "description": ""
 }
