@@ -30,7 +30,8 @@ app.use(xssClean());
 // CORS options
 const allowedOrigins = [
   'http://localhost:5173',
-  'https://pintech-enterprises.vercel.app'
+  'https://pintech-enterprises.vercel.app',
+  'https://pintech-boutique.netlify.app/'
 ];
 
 const corsOptions = {
